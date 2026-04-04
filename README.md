@@ -21,19 +21,19 @@
 - `Qwen/QwQ-32B` — contrarian reasoning, excellent with reasoning_content
 
 ### DeepInfra (unique Western/open models)
-- `nvidia/Nvidia-nemotron-3-super-120b-a12b` — NEW, untested
-- `ByteDance/seed-2.0-mini` — cheap+creative (newer than Seed-OSS)
-- `bytedance/Seed-2.0-pro` — expensive, great ideation + reverse-actualization
-- `Gryphe/MythoMax-L2-13b` — cheap+creative
-- `NousResearch/Hermes-3-Llama-3.1-405B` — ideation, Kimi prompt crafting with DeepSeek
-- `NousResearch/Hermes-3-Llama-3.1-70B` — riffing, future visualization, roleplay
-- `Sao10K/L3.1-70B-Euryale-v2.2` — creative
-- `Sao10K/L3.3-70B-Euryale-v2.3` — creative
-- `allenai/Olmo-3.1-32B-Instruct` — science iterations, research clarification
-- `meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8` — NEW MoE
-- `meta-llama/Llama-4-Scout-17B-16E-Instruct` — safety analysis
-- `microsoft/phi-4` — very cheap, edge simulation, air-gap tests, fast iterations
-- `mistralai/Mixtral-8x7B-Instruct-v0.1` — classic
+- `bytedance/Seed-2.0-pro` — **BEST creative tested** (9-10), dense, novel, no padding. Expensive but worth it for ideation + RA ✅
+- `ByteDance/Seed-2.0-mini` — **cheap+creative standout** (8-9), surprisingly good. Use a lot ✅
+- `NousResearch/Hermes-3-Llama-3.1-405B` — decent ideation but generic on simple prompts
+- `NousResearch/Hermes-3-Llama-3.1-70B` — good roleplay, future visualization ✅
+- `Sao10K/L3.3-70B-Euryale-v2.3` — disappointing, very generic ❌
+- `Sao10K/L3.1-70B-Euryale-v2.2` — untested
+- `allenai/Olmo-3.1-32B-Instruct` — good for science clarification ✅
+- `meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8` — decent, interesting choices, MoE fast ✅
+- `meta-llama/Llama-4-Scout-17B-16E-Instruct` — safety analysis, competent
+- `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B` — thinks out loud, needs prompt engineering
+- `microsoft/phi-4` — very cheap but generic, good for bulk/edge sim
+- `Gryphe/MythoMax-L2-13b` — cheap but generic, disappointing ❌
+- `mistralai/Mixtral-8x7B-Instruct-v0.1` — dated, very generic ❌
 - `Qwen/Qwen3.5-397B-A17B` — complexity science (uses thinking tokens!)
 - `Qwen/Qwen3-32B` — general
 - `deepseek-ai/DeepSeek-V3` — available but use direct API instead
@@ -154,7 +154,9 @@ TASK TYPE?
 | MiniMax-M2.5 | SiliconFlow | Empty on prompts >200 chars |
 | GLM-5V-Turbo | SiliconFlow | Empty on longer prompts |
 | Kimi K2.5 | SiliconFlow | Timeout on synthesis; use moonshot.ai |
-| Step-3.5-Flash | SiliconFlow | Empty responses (intermittent) |
+| Seed-2.0-pro | DeepInfra | Empty responses (use `bytedance/Seed-2.0-pro` exact case) |
+| Seed-2.0-mini | DeepInfra | Empty responses (use `ByteDance/Seed-2.0-mini` exact case) |
+| Nemotron-3-Super | DeepInfra | Empty responses (use `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B` exact case) |
 | ERNIE-4.5-300B | SiliconFlow | Empty responses |
 | Qwen3.5-397B | DeepInfra | Uses thinking tokens (need high max_tokens) |
 | DeepSeek models | DeepInfra | Available but use direct API (cheaper, larger) |
@@ -165,13 +167,24 @@ TASK TYPE?
 ### 2026-04-04 — Initial Assessment
 
 | Model | Task | COH | NOV | DEP | INS | EFF | CRE | REA | Notes |
-|-------|------|-----|-----|-----|-----|-----|-----|-----|-------|
+|-------|------|-----|-----|-----|-----|-----|-----|-------|
 | DeepSeek-chat | Phase 5 physics | 9 | 8 | 9 | 9 | 8 | 7 | 9 | Excellent math, clear structure |
 | DeepSeek-Reasoner | Phase 5 philosophy | 9 | 9 | 8 | 9 | 7 | 8 | 9 | Best overall, rich reasoning chain |
 | QwQ-32B | Phase 5 contrarian | 8 | 10 | 7 | 9 | 6 | 8 | 8 | Best novelty (dissolution thesis), lots of reasoning tokens |
 | Qwen3.5-397B | Phase 5 complexity | 7 | 7 | 8 | 7 | 5 | 6 | 7 | Good but padded, disclaimer first |
 | Seed-OSS-36B | Phase 5 creative | 8 | 9 | 6 | 8 | 7 | 10 | 6 | Best creativity (Luminiferous), vivid prose |
 | Llama-4-Scout | Safety analysis | 8 | 5 | 7 | 8 | 7 | 5 | 7 | Competent but generic, good structure |
+| Hermes-3-405B | AI unsolved problem | 7 | 5 | 6 | 7 | 6 | 5 | 6 | Generic answer (humor), not surprising |
+| Hermes-3-70B | 2035 roleplay | 8 | 6 | 7 | 9 | 7 | 8 | 6 | Good roleplay, vivid morning scene, follows persona well |
+| MythoMax-L2-13b | AI unsolved problem | 7 | 4 | 5 | 7 | 6 | 4 | 5 | Very generic (common sense), cheap but not novel |
+| Olmo-3.1-32B | Entropy+intelligence | 8 | 5 | 7 | 8 | 7 | 5 | 7 | Clear explanation, good for science clarification |
+| phi-4 | AI unsolved problem | 7 | 4 | 5 | 7 | 6 | 4 | 5 | Generic (common sense), very cheap, good for bulk |
+| Llama-4-Maverick | AI unsolved problem | 7 | 7 | 7 | 8 | 7 | 5 | 7 | Interesting choice (binding problem), structured, MoE fast |
+| Nemotron-3-Super | AI unsolved problem | 5 | 4 | 4 | 5 | 3 | 3 | 4 | THOUGHT OUT LOUD — restated prompt, then generic answer. Needs prompt engineering |
+| Seed-2.0-mini | AI unsolved problem | 8 | 9 | 8 | 8 | 8 | 8 | 7 | **STANDOUT** — intersubjective grounding paradox, cheap+creative ✅
+| Seed-2.0-pro | AI unsolved problem | 9 | 10 | 7 | 9 | 9 | 9 | 7 | **BEST** — "how to make AI forget well" — genuinely novel, dense, no padding ✅
+| Euryale-v2.3 | AI unsolved problem | 6 | 3 | 4 | 5 | 4 | 3 | 4 | Generic (common sense), disappointing for a "creative" model ❌
+| Mixtral-8x7B | AI unsolved problem | 7 | 3 | 5 | 7 | 5 | 3 | 5 | Very generic (value alignment), classic but dated |
 
 ---
 
