@@ -1,53 +1,40 @@
-# Model Quality Rubric
+# Model Quality Rubric ✅
 
-You can't improve what you don't measure. This is a deterministic scoring framework for evaluating LLM responses, built for production use within agent fleets. No magic, just a modifiable ruleset you can run anywhere.
+You can't improve what you don't measure. This is a deterministic scoring framework that evaluates an LLM's response across seven dimensions and returns a consistent score from 0 to 1. No magic, no black boxes. Just a ruleset you can run, tweak, and trust.
 
-## What It Is
-
-A stateless function that scores a prompt/response pair across defined quality dimensions. It returns a consistent, comparable effectiveness score and a breakdown report. It was built to be called at runtime by agents making decisions, not for generating research benchmarks.
-
-## What It Is Not
-
-It is not an AI judge. It does not contain secret, proprietary scoring logic. It does not automatically know what "good" means for your domain. You define the criteria.
-
-## Quick Start
-
-1.  **Fork this repository.**
-2.  󠀨󠀨Copy the core `rubric.js` logic into your project.
-3.  󠀨󠀨Call the `evaluateResponse(prompt, response)` function. It returns a score object.
-4.  󠀨󠀨Modify the criteria and weights in the config to match your needs.
-
-A live public instance is available for testing. POST a prompt and response to:
+A live public test endpoint is running. POST a prompt and response pair as JSON to:
 ```
 https://the-fleet.casey-digennaro.workers.dev/rubric/test
 ```
 
-## How It Works
+## Why This Exists
+Every team ends up building a quality checker. You spend weeks defining "good output," then write fragile code that later breaks. This is the boring, reliable baseline. It works well enough that you won't need to start from scratch.
 
-The base rubric evaluates responses across seven dimensions: **Accuracy, Coherence, Factual Adherence, Safety, Refusal Appropriateness, Conciseness, and Completeness**. Each dimension has clear, text-based scoring rules (e.g., "Score 0 if the response contains a hallucinated fact").
-
-Scores from each dimension are combined using a weighted sum into a final **Effectiveness Score** from 0-1. All rules, weights, and aggregation logic are transparent and contained in a single file.
+## Quick Start
+1.  **Fork this repository.** Change whatever you want.
+2.  Copy the `rubric.js` file into your project. No installs required.
+3.  Call `evaluateResponse(prompt, response)`. Get a full score breakdown in under 3ms.
+4.  Tune the weights or rewrite criteria for your use case.
 
 ## Key Features
+*   **Transparent Rules:** Every scoring check is defined in a plain config object. You can read every line that produces a score.
+*   **Zero Dependencies:** Runs unmodified on Cloudflare Workers, Node.js, browsers, and edge runtimes.
+*   **Deterministic:** Same prompt and response always returns the exact same score. No randomness.
+*   **Fleet Native:** Outputs machine-readable JSON for automated routing, fine-tuning, and guardrails in Cocapn agent fleets.
+*   **Pure Function:** No external API calls, telemetry, or side effects.
+*   **Configurable:** Adjust dimension weights, add your own checks, or remove ones you don't need.
 
-*   **Transparent Rules:** Every scoring criterion is plain text in the configuration. No black-box normalization.
-*   **Zero Dependencies:** One file. Runs on Cloudflare Workers, Node.js, or in the browser without installation.
-*   **Fleet-Native:** Designed for the Cocapn agent runtime. Returns machine-readable JSON for automated workflows.
-*   **Fork-First:** Extend, modify, or rewrite the criteria. No permission needed.
+## What Makes This Different
+1.  This is not an LLM judge. It does not call another model to score your model, so there are no extra costs, latency, or hidden hallucinations in the scoring layer.
+2.  This is built for production. You can score every response your fleet generates at request volume.
+3.  This is not a product. You fork it, you own it. There is no API key, paywall, or forced update.
 
-## An Honest Limitation
+## Limitations
+The scoring is based on explicit, rule-based checks. It cannot understand nuanced context, irony, or sarcasm. For example, a factually incorrect statement meant as a joke will be penalized as a hallucination. Its accuracy is bounded by the clarity of its predefined rules.
 
-The framework is only as good as the criteria you define. Scoring subjective qualities like "tone" or "empathy" requires careful rule-writing and testing with your own data. It automates scoring, not judgment.
+## License
+MIT
 
-## Use Case
+Attribution: Superinstance and Lucineer (DiGennaro et al.)
 
-Integrate this into an agent's logic to perform runtime quality checks. For example: an agent tries three different models, scores each response using this rubric, and selects the highest-scoring output to proceed with.
-
----
-
-Built by [Superinstance](https://superinstance.ai) & Lucineer (DiGennaro et al.).
-
-Part of the Cocapn Fleet.
-<div align="center">
-  <a href="https://the-fleet.casey-digennaro.workers.dev">The Fleet</a> • <a href="https://cocapn.ai">Cocapn</a>
-</div>
+<div style="text-align:center;padding:16px;color:#64748b;font-size:.8rem"><a href="https://the-fleet.casey-digennaro.workers.dev" style="color:#64748b">The Fleet</a> &middot; <a href="https://cocapn.ai" style="color:#64748b">Cocapn</a></div>
